@@ -1,0 +1,28 @@
+macos-titlebar-style = hidden
+
+font-family = CaskaydiaCove NF
+font-size = 22
+
+# theme = Tomorrow Night Burns
+theme = lackluster
+
+font-thicken = true
+
+background = 000000
+background-opacity = 0.6
+background-blur = false
+
+cursor-style = block
+cursor-style-blink = true
+
+# custom-shader = ./shaders/bloom.glsl
+
+confirm-close-surface = false
+
+shell-integration = zsh
+
+shell-integration-features = cursor, no-sudo, no-title
+
+keybind = ctrl+enter=unbind
+
+command = zsh --login -c "if command -v tmux >/dev/null 2>&1; then tmux attach || $HOME/.local/bin/tmux-sessionizer $HOME; else zsh; fi"

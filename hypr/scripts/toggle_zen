@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+toggle_zen_mode() {
+    current_gaps=$(hyprctl getoption general:gaps_out | awk '{print $3}')
+
+    if [ "$current_gaps" -eq 0 ]; then
+        # Disable zen mode
+        hyprctl --batch "keyword general:gaps_in 2.5 ; keyword general:gaps_out 5"
+    else
+        # Enable zen mode
+        hyprctl --batch "keyword general:gaps_in 0 ; keyword general:gaps_out 0"
+    fi
+
+    if pgrep -x "waybar" > /dev/null; then
+        killall -SIGUSR1 waybar
+    fi
+}
+
+toggle_zen_mode

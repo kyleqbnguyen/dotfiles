@@ -1,0 +1,129 @@
+// -*- mode: jsonc -*-
+{
+    // "layer": "top", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
+    "height": 42, // Waybar height (to be removed for auto height)
+    // "width": 1280, // Waybar width
+    "spacing": 3, // Gaps between modules (4px)
+    // "margin-top": 6,
+    // "margin-right": 6,
+    "margin-bottom": 1,
+    // "margin-left": 6,
+    // Choose the order of the modules
+    "modules-left": [
+        //"custom/menu",
+        "custom/spotify",
+        "custom/cava_mviz",
+        "mpd"
+    ],
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    "modules-right": [
+        "tray",
+        "battery",
+        "pulseaudio",
+        "backlight",
+        "cpu",
+        "memory",
+        "clock"
+    ],
+    // Modules configuration
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "warp-on-scroll": false,
+        "on-click": "activate",
+        "format": "{icon}",
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": []
+        },
+        "format-icons": {
+            "empty": "",
+            "default": "", // When there's item inside
+            "active": "",
+            "urgent": ""
+        }
+    },
+    "tray": {
+        "icon-size": 16,
+        "spacing": 10
+    },
+    "clock": {
+        "interval": 1,
+        "format": "{:%m/%d %I:%M}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "year",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#ffead3'><b>{}</b></span>",
+                "days": "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+                "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+            }
+        }
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        //"format": "{icon} {volume}",
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟 Muted",           // Icon for mute (you can also use "" or "")
+        "format-icons": {
+            "default": [ "󰕿", "󰖀", "󰕾", "󰕾" ] // low, med, high, very high
+        },
+        "on-click": "pamixer --toggle-mute",
+        "on-click-right": "pavucontrol"
+    },
+    "battery": {
+        "interval": 60,
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon}",
+        "format-icons": ["", "", "", "", ""],
+        "max-length": 25
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{percent}% {icon}",
+        "format-icons": ["", ""]
+    },
+    "memory": {
+        "interval": 30,
+        "format": "{avail}G"
+    },
+    "cpu": {
+        "interval": 10,
+        "format": "{}%",
+        "max-length": 10
+    },
+    "custom/spotify": {
+        "exec": "python ~/.config/waybar/mediaplayer.py --player spotify",
+        "format": "{}",
+    //"format": " {}",
+    "max-length": 35,
+    "return-type": "json",
+    "on-click": "playerctl previous",
+    "on-click-right": "playerctl next",
+    "on-click-middle": "playerctl play-pause",
+    //"on-scroll-up": "$HOME/.config/hypr/scripts/Volume.sh --inc",
+    //"on-scroll-down": "$HOME/.config/hypr/scripts/Volume.sh --dec"
+    },
+    "custom/cava_mviz": {
+        "exec": "$HOME/.local/bin/waybar_cava",
+        "format": "{}"
+    },
+    "custom/menu": {
+        "format": "死 "
+    },
+},
+
