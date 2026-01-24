@@ -1,97 +1,134 @@
-# name: DARKTHRONE colors for Yazi
-# url: https://github.com/sxyazi/yazi
-# upstream: ${upstream}
-# author: Andrea Schiavini (original code by Casey Miller)
+# Lackluster theme for Yazi - Monochrome style (netrw-like)
 
 [mgr]
-cwd = { fg = "#888888" }
+cwd = { fg = "#aaaaaa" }
 
-hovered         = { fg = "#c1c1c1", bg = "#000000" }
-preview_hovered = { fg = "#c1c1c1", bg = "#000000" }
+find_keyword  = { fg = "#deeeed", bold = true }
+find_position = { fg = "#aaaaaa", bg = "reset", bold = true }
 
-find_keyword  = { fg = "#5f8787", italic = true }
-find_position = { fg = "#5f8787", bg = "reset", italic = true }
+marker_copied   = { fg = "#789978", bg = "#789978" }
+marker_cut      = { fg = "#aa6666", bg = "#aa6666" }
+marker_marked   = { fg = "#aaaaaa", bg = "#aaaaaa" }
+marker_selected = { fg = "#deeeed", bg = "#deeeed" }
 
-marker_copied   = { fg = "#FFFFFF" }
-# marker_cut      = { fg = "${error}" }
-marker_selected = { fg = "#5f8787" }
+count_copied   = { fg = "#080808", bg = "#789978" }
+count_cut      = { fg = "#080808", bg = "#aa6666" }
+count_selected = { fg = "#080808", bg = "#aaaaaa" }
 
-tab_active   = { fg = "#5f8787", bg = "#333333" }
-tab_inactive = { fg = "#505050", bg = "#333333" }
-tab_width    = 1
-
-count_cut      = { fg = "#5f8787", bg = "#000000" }
-count_copied   = { fg = "#5f8787", bg = "#000000" }
-count_selected = { fg = "#5f8787", bg = "#000000" }
-
-border_symbol = "│"
-border_style  = { fg = "#505050" }
+border_symbol = "|"
+border_style  = { fg = "#2a2a2a" }
 
 [mode]
-normal_main   = { fg = "#000000", bg = "#aaaaaa", bold = true }
-normal_alt    = { fg = "#000000", bg = "#aaaaaa", bold = true }
-select_main   = { fg = "#000000", bg = "#999999", bold = true }
-select_alt    = { fg = "#000000", bg = "#999999", bold = true }
-unset_main    = { fg = "#000000", bg = "#FFFFFF", bold = true }
-unset_alt     = { fg = "#000000", bg = "#FFFFFF", bold = true }
+normal_main = { fg = "#080808", bg = "#7a7a7a", bold = true }
+normal_alt  = { fg = "#7a7a7a", bg = "#191919" }
+
+select_main = { fg = "#080808", bg = "#789978", bold = true }
+select_alt  = { fg = "#789978", bg = "#191919" }
+
+unset_main  = { fg = "#080808", bg = "#aa6666", bold = true }
+unset_alt   = { fg = "#aa6666", bg = "#191919" }
 
 [status]
-sep_left  = { open = "[", close = "]" }
-sep_right = { open = "[", close = "]" }
-separator_style = { fg = "#333333", bg = "#333333" }
+overall = { fg = "#aaaaaa", bg = "#191919" }
 
-progress_label  = { fg = "#5f8787", bold = true }
-progress_normal = { fg = "#5f8787", bg = "#333333" }
-# progress_error  = { fg = "#000000", bg = "${error}" }
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
 
-permissions_t = { fg = "#c1c1c1" }
-permissions_r = { fg = "#888888" }
-permissions_w = { fg = "#5f8787" }
-permissions_x = { fg = "#aaaaaa" }
-permissions_s = { fg = "#9b99a3" }
+perm_type  = { fg = "#555555" }
+perm_read  = { fg = "#789978" }
+perm_write = { fg = "#aa6666" }
+perm_exec  = { fg = "#789978" }
+perm_sep   = { fg = "#2a2a2a" }
+
+progress_label  = { fg = "#aaaaaa", bold = true }
+progress_normal = { fg = "#555555", bg = "#191919" }
+progress_error  = { fg = "#aa6666", bg = "#191919" }
+
+[indicator]
+parent  = { fg = "#2a2a2a", bg = "#191919" }
+current = { fg = "#555555", bg = "#191919" }
+preview = { fg = "#2a2a2a", bg = "#191919" }
+padding = { open = " ", close = " " }
+
+[tabs]
+active   = { fg = "#deeeed", bg = "#2a2a2a" }
+inactive = { fg = "#555555", bg = "#191919" }
+
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
+[pick]
+border   = { fg = "#2a2a2a" }
+active   = { fg = "#deeeed", bg = "#191919" }
+inactive = { fg = "#555555" }
 
 [input]
-border   = { fg = "#505050" }
-title    = {}
-value    = {}
+border   = { fg = "#2a2a2a" }
+title    = { fg = "#aaaaaa" }
+value    = { fg = "#deeeed" }
 selected = { reversed = true }
 
-[select]
-border   = { fg = "#505050" }
-active   = { fg = "#999999" }
-inactive = {}
+[cmp]
+border   = { fg = "#2a2a2a" }
+active   = { fg = "#deeeed", bg = "#191919" }
+inactive = { fg = "#555555" }
 
 [tasks]
-border  = { fg = "#505050" }
-title   = {}
-hovered = { underline = true }
+border  = { fg = "#2a2a2a" }
+title   = { fg = "#aaaaaa" }
+hovered = { fg = "#deeeed", bg = "#191919" }
 
 [which]
-mask            = { bg = "#000000" }
-cand            = { fg = "#c1c1c1" }
-rest            = { fg = "#FFFFFF" }
-desc            = { fg = "#FFFFFF" }
-separator       = "  "
-separator_style = { fg = "#9b99a3"}
+cols = 3
+mask = { bg = "#080808" }
+cand = { fg = "#aaaaaa" }
+rest = { fg = "#444444" }
+desc = { fg = "#555555" }
+separator = " -> "
+separator_style = { fg = "#2a2a2a" }
 
 [help]
-on      = { fg = "#FFFFFF" }
-run    = { fg = "#FFFFFF" }
-desc    = { fg = "#505050" }
-hovered = { fg = "#c1c1c1", bg = "#000000", bold = true }
-footer  = { fg = "#505050", bg = "#000000" }
+on      = { fg = "#aaaaaa" }
+run     = { fg = "#7a7a7a" }
+desc    = { fg = "#555555" }
+hovered = { reversed = true }
+footer  = { fg = "#444444" }
+
+[confirm]
+border = { fg = "#2a2a2a" }
+title  = { fg = "#aaaaaa" }
+body   = { fg = "#7a7a7a" }
+list   = { fg = "#555555" }
+btn_yes = { fg = "#080808", bg = "#789978" }
+btn_no  = { fg = "#080808", bg = "#aa6666" }
+
+[spot]
+border   = { fg = "#2a2a2a" }
+title    = { fg = "#aaaaaa" }
+tbl_col  = { fg = "#555555" }
+tbl_cell = { fg = "#deeeed", bg = "#191919" }
+
+[notify]
+title_info  = { fg = "#789978" }
+title_warn  = { fg = "#aaaaaa" }
+title_error = { fg = "#aa6666" }
 
 [filetype]
 rules = [
-# Media
-{ mime = "image/*", fg = "#FFFFFF"},
-{ mime = "{audio,video}/*", fg = "#FFFFFF"},
-
-# Archives
-{ mime = "application/{,g}zip", fg = "#5f8787"},
-{ mime = "application/x-{tar,bzip*,7z-compressed,xz,rar}", fg = "#5f8787"},
-
-# Fallback
-{ name = "*", fg = "#c1c1c1"},
-{ name = "*/", fg = "#888888"}
+	{ mime = "image/*", fg = "#7a7a7a" },
+	{ mime = "{audio,video}/*", fg = "#7a7a7a" },
+	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*}", fg = "#555555" },
+	{ mime = "application/pdf", fg = "#7a7a7a" },
+	{ mime = "inode/empty", fg = "#444444" },
+	{ url = "*", is = "orphan", fg = "#aa6666" },
+	{ url = "*", is = "exec", fg = "#789978" },
+	{ url = "*", is = "link", fg = "#555555", italic = true },
+	{ url = "*/", fg = "#555555" },
 ]
+
+[icon]
+globs = []
+dirs = []
+files = []
+exts = []
+conds = []

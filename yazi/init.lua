@@ -1,1 +1,1 @@
-require("no-status"):setup()
+-- status bar enabled (removed no-status plugin)
