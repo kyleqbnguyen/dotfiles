@@ -1,0 +1,7 @@
+set recolor true
+
+set selection-clipboard clipboard
+
+# Half-page scrolling with d/u (vim-style)
+map d scroll half-down
+map u scroll half-up

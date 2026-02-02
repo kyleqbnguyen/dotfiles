@@ -59,9 +59,16 @@ vim.pack.add({
 	{ src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" },
 	{ src = "https://github.com/slugbyte/lackluster.nvim" },
 	{ src = "https://github.com/ThePrimeagen/harpoon" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter",          version = "main" },
 })
 
 --------------------------------------------------------------------------------
+--- Treesitter
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { "lua", "javascript", "javascriptreact", "typescript", "typescriptreact", "rust", "c", "cpp" },
+  callback = function() vim.treesitter.start() end,
+})
+
 --- LSP
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = vim.api.nvim_create_augroup('my.lsp', {}),
@@ -88,7 +95,7 @@ vim.lsp.config("lua_ls", {
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "html", "css", },
   callback = function()
-    vim.bo.formatprg = "prettierd %"
+    vim.bo.formatprg = "prettierd"
   end,
 })
 
@@ -98,6 +105,7 @@ local square_borders = { "─", "│", "─", "│", "┌", "┐", "┘", "└" 
 
 require "telescope".setup({
 	defaults = {
+    preview = {treesitter = true},
 		mappings = {
 			n = {
 				["<C-c>"] = require("telescope.actions").close,
@@ -259,12 +267,8 @@ require("render-markdown").setup({
     backgrounds = {},
   },
   code = {
-    conceal = true,
     width = 'block',
     -- min_width = 80,
-  },
-  inline_code = {
-    conceal = true,
   },
 })
 --------------------------------------------------------------------------------
