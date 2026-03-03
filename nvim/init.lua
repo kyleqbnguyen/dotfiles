@@ -33,8 +33,8 @@ vim.o.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.o.undofile = true
 
 --- Remaps
+vim.keymap.set({ "n", "i", "v", "x", "s", "o" }, "<C-c>", "<Esc>", { silent = true })
 vim.keymap.set("n", "<leader>nw", vim.cmd.Ex)
-vim.keymap.set("n", "<leader>gq", vim.lsp.buf.format)
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "G", "Gzz")
@@ -60,22 +60,13 @@ vim.pack.add({
   { src = "https://github.com/slugbyte/lackluster.nvim" },
   { src = "https://github.com/ThePrimeagen/harpoon" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter",          version = "main" },
+  { src = "https://github.com/L3MON4D3/LuaSnip" },
+  { src = "https://github.com/saghen/blink.cmp",                         version = vim.version.range("1.*") },
 })
 
 --------------------------------------------------------------------------------
 --- LSP
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('my.lsp', {}),
-  callback = function(args)
-    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-    if client:supports_method('textDocument/completion') then
-      vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
-    end
-  end,
-})
-vim.cmd [[set completeopt+=menuone,noselect,popup]]
-
-vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "rust_analyzer", "clangd", "cmake" })
+vim.lsp.enable({ "lua_ls", "ts_ls", "eslint", "rust_analyzer", "clangd", })
 vim.lsp.config("lua_ls", {
   settings = {
     Lua = {
@@ -90,6 +81,13 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "html", "css", },
   callback = function()
     vim.bo.formatprg = "prettierd"
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "cmake",
+  callback = function()
+    vim.bo.formatprg = "cmake-format -"
   end,
 })
 
@@ -188,6 +186,7 @@ require("lackluster").setup({
       overwrite = true, -- overwrite == true will force overwrite lackluster's default highlights
       link = "@keyword",
     },
+    -- Telescope Settings
     TelescopeMatching = {
       overwrite = true, -- force overwrite instead of extending
       bold = false,
@@ -241,6 +240,7 @@ require("lackluster").setup({
   },
 })
 vim.cmd("colorscheme lackluster-dark")
+
 --------------------------------------------------------------------------------
 --- Harpoon
 local mark = require("harpoon.mark")
@@ -252,6 +252,7 @@ vim.keymap.set("n", "<A-m>", function() ui.nav_file(1) end)
 vim.keymap.set("n", "<A-n>", function() ui.nav_file(2) end)
 vim.keymap.set("n", "<A-e>", function() ui.nav_file(3) end)
 vim.keymap.set("n", "<A-i>", function() ui.nav_file(4) end)
+
 --------------------------------------------------------------------------------
 --- Markdown
 require("render-markdown").setup({
@@ -265,6 +266,66 @@ require("render-markdown").setup({
     -- min_width = 80,
   },
 })
+
+--------------------------------------------------------------------------------
+--- Luasnip
+require("luasnip").setup({
+  keep_roots = true,
+  link_roots = true,
+  link_children = true,
+  exit_roots = false,
+  -- update_events = { "TextChanged", "TextChangedI" },
+  update_events = "InsertLeave",
+})
+require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
+
+local ls = require("luasnip")
+
+vim.keymap.set({ "i", "s" }, "<C-j>", function() ls.jump(1) end, { silent = true })
+vim.keymap.set({ "i", "s" }, "<C-k>", function() ls.jump(-1) end, { silent = true })
+
+vim.keymap.set({ "i", "s" }, "<C-n>", function()
+  if ls.choice_active() then
+    ls.change_choice(1)
+  end
+end, { silent = true })
+
+vim.keymap.set({ "i", "s" }, "<C-p>", function()
+  if ls.choice_active() then
+    ls.change_choice(-1)
+  end
+end, { silent = true })
+
+--------------------------------------------------------------------------------
+--- Blinkcmp
+require("blink.cmp").setup({
+  snippets = {
+    preset = "luasnip",
+  },
+  sources = {
+    default = { 'snippets', 'lsp', 'path', 'buffer' },
+  },
+  keymap = {
+    preset = "default",
+    ['<C-k>'] = false,
+  },
+  -- signature = { enabled = true },
+  completion = {
+    documentation = { auto_show = true, auto_show_delay_ms = 500 },
+    menu = {
+      auto_show = true,
+      draw = {
+        treesitter = { "lsp" },
+        columns = { { "label", "label_description", gap = 1 }, { "kind" } },
+      },
+    },
+  },
+})
+
+vim.api.nvim_set_hl(0, "Pmenu", { bg = "none" })
+vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "none" })
+vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "none" })
+
 --------------------------------------------------------------------------------
 --- No Config
 require("mason").setup()
