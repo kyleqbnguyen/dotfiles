@@ -1,9 +1,8 @@
 macos-titlebar-style = hidden
 
-font-family = CaskaydiaCove NF
+font-family = CaskaydiaCove Nerd Font Mono
 font-size = 18
 
-# theme = Tomorrow Night Burns
 theme = lackluster
 
 font-thicken = true
@@ -14,8 +13,6 @@ background-blur = false
 
 cursor-style = block
 cursor-style-blink = true
-
-# custom-shader = ./shaders/bloom.glsl
 
 confirm-close-surface = false
 
