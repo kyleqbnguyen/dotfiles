@@ -8,7 +8,7 @@ require("statusline")
 vim.g.netrw_banner = 0
 vim.o.number = true
 vim.o.relativenumber = true
-vim.opt.guicursor = { "n-v:block", "i-c:block" }
+vim.opt.guicursor = { "n-v:block", "i-c:block-blinkon500-blinkoff500" }
 vim.o.scrolloff = 8
 vim.o.colorcolumn = "81"
 vim.o.signcolumn = "yes"
@@ -194,6 +194,10 @@ require("lackluster").setup({
     StatusLine = {
       overwrite = true,
       fg = color.gray8,
+      bg = color.gray2,
+    },
+    ColorColumn = {
+      overwrite = true,
       bg = color.gray2,
     },
     -- inactive status line
@@ -426,6 +430,9 @@ require("oil").setup({
   default_file_explorer = true,
   keymaps = {
     ["<C-c>"] = false,
+  },
+  view_options = {
+    show_hidden = true,
   },
 })
 

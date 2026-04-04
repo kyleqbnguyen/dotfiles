@@ -1,8 +1,7 @@
-macos-titlebar-style = hidden
-macos-option-as-alt = true
+config-file = ?~/dotfiles/ghostty/arch.ghostty
+config-file = ?~/dotfiles/ghostty/mac.ghostty
 
 font-family = CaskaydiaCove Nerd Font Mono
-font-size = 18
 
 theme = lackluster
 

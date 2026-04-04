@@ -1,4 +1,4 @@
-tmux send-keys "clear" C-m
-tmux new-window -n vim 'nvim; exec $SHELL'
+tmux send-keys 'if [[ -d notes ]]; then cd notes; fi; clear' C-m
+tmux new-window -n vim 'if [[ -d notes ]]; then cd notes; fi; nvim; exec $SHELL'
 tmux new-window -n sioyek 'pdf=$(find . -maxdepth 1 -type f -name "*.pdf" -print -quit); if [[ -n "$pdf" ]]; then sioyek "$pdf"; fi; exec $SHELL'
 tmux select-window -t vim
