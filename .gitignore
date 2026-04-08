@@ -1,17 +1,2 @@
-GIMP/
-dconf/
-discord/
-pulse/
-qmk/
-spotify/
-tmux/plugins/
-go/
-Postman/
-BraveSoftware/
-mimeapps.list
-tmux-sessionizer/tmux-sessionizer.conf
-obs-studio/
-nextjs-nodejs/
 .tmux-sessionizer
 .DS_STORE
-github-copilot/

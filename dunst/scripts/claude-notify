@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+CLIENT=$(tmux display-message -p '#{client_name}')
+TARGET=$(tmux display-message -p '#S:#I.#P')
+SESSION=$(tmux display-message -p '#S')
+
+result=$(notify-send -A "default=Switch to session" -t 0 \
+  "Claude Code [$SESSION]" "Needs your attention")
+
+if [ "$result" = "default" ]; then
+  tmux switch-client -c "$CLIENT" -t "$TARGET"
+fi
