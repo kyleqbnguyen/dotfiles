@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+workspace_name="obsidian"
+workspace_target="name:${workspace_name}"
+state_file="${XDG_RUNTIME_DIR:-/tmp}/hypr-obsidian-workspace"
+
+current_workspace="$(hyprctl activeworkspace -j | jq -r '.name')"
+
+if [[ "${current_workspace}" == "${workspace_name}" ]]; then
+    if [[ -s "${state_file}" ]]; then
+        previous_workspace="$(<"${state_file}")"
+        hyprctl dispatch workspace "${previous_workspace}" >/dev/null
+        rm -f "${state_file}"
+    fi
+    exit 0
+fi
+
+if [[ "${current_workspace}" =~ ^[0-9]+$ ]]; then
+    printf '%s' "${current_workspace}" >"${state_file}"
+else
+    printf 'name:%s' "${current_workspace}" >"${state_file}"
+fi
+
+hyprctl dispatch workspace "${workspace_target}" >/dev/null
+
+if ! hyprctl clients | rg -q "class: obsidian"; then
+    obsidian >/dev/null 2>&1 &
+fi
