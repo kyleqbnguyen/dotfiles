@@ -12,6 +12,14 @@ local function currentDate()
   return os.date("%m-%d-%Y")
 end
 
+-- ---
+-- pattern: "[[Arrays and Hashing]]"
+-- problem: "[217. Contains Duplicates](https://leetcode.com/problems/contains-duplicate/description/)"
+-- confidence: Amazing
+-- tags: [easy, "unordered_set", leetcode]
+-- date: 04-17-2026
+-- ---
+
 local function leetcodeBody()
   return sn(nil, {
     t('problem: "['),
@@ -26,10 +34,10 @@ local function leetcodeBody()
     t('https://neetcode.io/roadmap)"'),
     t({ "", "confidence: " }),
     c(4, {
-      t("Terrible"),
+      t("Bad"),
       t("Mid"),
       t("Good"),
-      t("Amazing"),
+      t("Perfect"),
     }),
     t({ "", "tags: [" }),
     i(5),
@@ -52,12 +60,12 @@ return {
   s("frontmatter", {
     t({ "---", "class: " }),
     c(1, {
-      t("Leetcode"),
-      t("C++"),
+      t("\"[[Leetcode]]\""),
+      t("\"[[C++]]\""),
     }),
     t({ "", "" }),
     d(2, function(args)
-      if args[1][1] == "C++" then
+      if args[1][1] == "\"[[C++]]\"" then
         return cppBody()
       end
 

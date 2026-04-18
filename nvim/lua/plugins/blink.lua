@@ -3,7 +3,7 @@ require("blink.cmp").setup({
     preset = "luasnip",
   },
   sources = {
-    default = { "snippets", "lsp", "path", "buffer", "books" },
+    default = { "snippets", "lsp", "path", "buffer", "books", "obsidian" },
     providers = {
       books = {
         name = "Books",
@@ -15,6 +15,11 @@ require("blink.cmp").setup({
             plan = true,
           },
         },
+      },
+      obsidian = {
+        name = "Obsidian",
+        module = "blink_obsidian",
+        score_offset = 12,
       },
     },
   },
