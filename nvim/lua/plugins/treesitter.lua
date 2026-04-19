@@ -16,6 +16,7 @@ local treesitter_languages = {
   "markdown_inline",
   "bash",
   "toml",
+  "rust",
 }
 
 require("nvim-treesitter").setup({

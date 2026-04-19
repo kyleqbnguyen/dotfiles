@@ -8,7 +8,7 @@ require("telescope").setup({
         ["<C-c>"] = require("telescope.actions").close,
       },
     },
-    file_ignore_patterns = { ".DS_Store", "build/", "node_modules/", "target/", ".git/", ".cache/", ".next/" },
+    file_ignore_patterns = { ".tmp/", ".DS_Store", "build/", "node_modules/", "target/", ".git/", ".cache/", ".next/" },
   },
   pickers = {
     find_files = {

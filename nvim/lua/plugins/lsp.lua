@@ -10,11 +10,8 @@ vim.lsp.config("lua_ls", {
   },
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "markdown", "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "html", "css" },
-  callback = function()
-    vim.bo.formatprg = "prettier --ignore-path /dev/null --stdin-filepath %"
-  end,
-})
+vim.keymap.set("n", "<leader>f", function()
+  require("conform").format()
+end)
 
 vim.keymap.set("n", "grd", vim.lsp.buf.definition, { silent = true })
