@@ -46,22 +46,10 @@ pullvault() {
   rsync -Pavzh "${extra[@]}" --delete "${_VAULT_EXCLUDES[@]}" "$REMOTE_HOST:~/vault/" ~/vault/
 }
 
-pushvault() {
-  local extra=()
-  [[ "$1" == "-n" ]] && extra+=(--dry-run)
-  rsync -Pavzh "${extra[@]}" --delete "${_VAULT_EXCLUDES[@]}" ~/vault/ "$REMOTE_HOST:~/vault/"
-}
-
 pullpersonal() {
   local extra=()
   [[ "$1" == "-n" ]] && extra+=(--dry-run)
   rsync -Pavzh "${extra[@]}" --delete "${_PROJECT_EXCLUDES[@]}" "$REMOTE_HOST:~/personal/" ~/personal/
-}
-
-pushpersonal() {
-  local extra=()
-  [[ "$1" == "-n" ]] && extra+=(--dry-run)
-  rsync -Pavzh "${extra[@]}" --delete "${_PROJECT_EXCLUDES[@]}" ~/personal/ "$REMOTE_HOST:~/personal/"
 }
 
 pullportal() {
@@ -69,13 +57,6 @@ pullportal() {
   [[ "$1" == "-n" ]] && extra+=(--dry-run)
   mkdir -p ~/portal || return 1
   rsync -Pavzh "${extra[@]}" "${_PROJECT_EXCLUDES[@]}" "${_OBSIDIAN_EXCLUDES[@]}" "$REMOTE_HOST:~/portal/" ~/portal/
-}
-
-pushportal() {
-  local extra=()
-  [[ "$1" == "-n" ]] && extra+=(--dry-run)
-  mkdir -p ~/portal || return 1
-  rsync -Pavzh "${extra[@]}" "${_PROJECT_EXCLUDES[@]}" "${_OBSIDIAN_EXCLUDES[@]}" ~/portal/ "$REMOTE_HOST:~/portal/"
 }
 
 portal_should_ignore() {

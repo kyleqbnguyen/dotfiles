@@ -22,7 +22,7 @@ return {
 		t({ "---", "# " }),
 		c(1, {
 			t("leetcode"),
-			t("source"),
+			t("note"),
 		}),
 		t({ "", "" }),
 		d(2, function(args)
@@ -64,16 +64,17 @@ return {
 				})
 			else
 				return sn(nil, {
-					t("source: "),
+					t("tags: ["),
 					i(1),
-					t({ "", "tags: [" }),
-					i(2),
-					t("]"),
+					t({ "]", "date: " }),
+					f(currentDate, {}),
+					t({ "", "---", "" }),
 				})
 			end
 		end, { 1 }),
 	}),
 
+	-- leetcode solution
 	s("sol", {
 		t("## "),
 		i(1, "name"),
