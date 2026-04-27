@@ -52,13 +52,9 @@ local function bodyExecutable()
 			"add_executable(${PROJECT_NAME} ${SOURCES})",
 			"",
 			"target_include_directories(${PROJECT_NAME}",
-			"    PRIVATE",
-			"        ${CMAKE_CURRENT_SOURCE_DIR}/include",
-			")",
+			"                           PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)",
 			"",
-			"target_compile_options(${PROJECT_NAME} PRIVATE",
-			"    -Wall -Wextra -Wpedantic",
-			")",
+			"target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)",
 		}),
 	})
 end
@@ -75,23 +71,19 @@ local function bodyTestedLibrary()
 			"",
 			"add_library(${PROJECT_NAME} ${LIB_SOURCES})",
 			"",
-			"target_include_directories(${PROJECT_NAME}",
-			"    PUBLIC",
-			"        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>",
-			"        $<INSTALL_INTERFACE:include>",
-			")",
+			"target_include_directories(",
+			"  ${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>",
+			"                         $<INSTALL_INTERFACE:include>)",
 			"",
-			"target_compile_options(${PROJECT_NAME} PRIVATE",
-			"    -Wall -Wextra -Wpedantic",
-			")",
+			"target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)",
 			"",
 			"if(",
 		}),
 		buildTestsOption(ai[2]),
 		t({
 			")",
-			"    enable_testing()",
-			"    add_subdirectory(tests)",
+			"  enable_testing()",
+			"  add_subdirectory(tests)",
 			"endif()",
 		}),
 	})
@@ -109,10 +101,9 @@ local function bodyLibPlusExe()
 			"",
 			"add_library(${PROJECT_NAME}_lib ${LIB_SOURCES})",
 			"",
-			"target_include_directories(${PROJECT_NAME}_lib",
-			"    PUBLIC",
-			"        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>",
-			")",
+			"target_include_directories(",
+			"  ${PROJECT_NAME}_lib",
+			"  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)",
 			"",
 			"target_compile_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic)",
 			"",
@@ -124,8 +115,33 @@ local function bodyLibPlusExe()
 		buildTestsOption(ai[2]),
 		t({
 			")",
-			"    enable_testing()",
-			"    add_subdirectory(tests)",
+			"  enable_testing()",
+			"  add_subdirectory(tests)",
+			"endif()",
+		}),
+	})
+end
+
+local function bodySubModules()
+	return sn(nil, {
+		t("option("),
+		buildTestsOption(ai[2]),
+		t(' "Build tests" '),
+		c(1, { t("ON"), t("OFF") }),
+		t({ ")", "", "" }),
+		t({
+			"list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)",
+			"include(deps)",
+			"",
+			"add_subdirectory(src)",
+			"",
+			"if(",
+		}),
+		buildTestsOption(ai[2]),
+		t({
+			")",
+			"  enable_testing()",
+			"  add_subdirectory(tests)",
 			"endif()",
 		}),
 	})
@@ -156,13 +172,13 @@ return {
 	s("cm", {
 		t("cmake_minimum_required(VERSION "),
 		i(1, "3.20"),
-		t({ ")", "project(" }),
+		t({ ")", "project(", "  " }),
 		i(2, "name"),
-		t({ "", "    VERSION " }),
-		i(3, "0.1.0"),
-		t({ "", '    DESCRIPTION "' }),
+		t({ "", "  VERSION " }),
+		i(3, "0.0.0"),
+		t({ "", '  DESCRIPTION "' }),
 		i(4, "desc"),
-		t({ '"', "    LANGUAGES CXX)", "", "" }),
+		t({ '"', "  LANGUAGES CXX)", "", "" }),
 		t("set(CMAKE_CXX_STANDARD "),
 		c(5, { t("20"), t("23"), t("17") }),
 		t({
@@ -173,13 +189,14 @@ return {
 			"",
 			"",
 		}),
-		t({ "if(NOT CMAKE_BUILD_TYPE)", "    set(CMAKE_BUILD_TYPE " }),
-		c(6, { t("Release"), t("Debug") }),
+		t({ "if(NOT CMAKE_BUILD_TYPE)", "  set(CMAKE_BUILD_TYPE " }),
+		c(6, { t("Debug"), t("Release") }),
 		t({ ")", "endif()", "", "# " }),
 		c(7, {
 			t("exe"),
 			t("lib"),
 			t("lib+exe"),
+			t("submodules"),
 		}),
 		t({ "", "" }),
 		d(8, function(args)
@@ -188,8 +205,10 @@ return {
 				return bodyTestedLibrary()
 			elseif mode == "lib+exe" then
 				return bodyLibPlusExe()
-			else
+			elseif mode == "exe" then
 				return bodyExecutable()
+      else
+				return bodySubModules()
 			end
 		end, { 7 }),
 	}),
@@ -240,8 +259,8 @@ return {
 				return sn(nil, {
 					t({
 						"",
-						"    GIT_REPOSITORY https://github.com/google/googletest.git",
-						"    GIT_TAG        ",
+						"  GIT_REPOSITORY https://github.com/google/googletest.git",
+						"  GIT_TAG ",
 					}),
 					i(1, "v1.14.0"),
 					t({ "", ")", "FetchContent_MakeAvailable(googletest)", "", "" }),
@@ -250,9 +269,9 @@ return {
 					t({ " ${TEST_SOURCES})", "", "" }),
 					t("target_link_libraries("),
 					rep(2),
-					t({ "", "    PRIVATE", "        " }),
-					i(3, "my_lib"),
-					t({ "", "        GTest::gtest_main", ")", "", "" }),
+					t(" PRIVATE "),
+					i(3, "${PROJECT_NAME}"),
+					t({ "", "                                                    GTest::gtest_main)", "", "" }),
 					t({ "include(GoogleTest)", "gtest_discover_tests(" }),
 					rep(2),
 					t(")"),

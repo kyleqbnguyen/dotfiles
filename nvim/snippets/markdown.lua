@@ -21,8 +21,8 @@ return {
 	s("frontmatter", {
 		t({ "---", "# " }),
 		c(1, {
-			t("leetcode"),
 			t("note"),
+      t("leetcode"),
 		}),
 		t({ "", "" }),
 		d(2, function(args)

@@ -1,5 +1,5 @@
 tmux send-keys "clear" C-m
-tmux new-window -n vim 'if [[ -d notes ]]; then cd notes; fi; nvim; exec $SHELL'
+tmux new-window -n vim 'cd ~/vault/concepts/; nvim; exec $SHELL'
 tmux new-window -n sioyek
 tmux send-keys -t sioyek 'pdf=$(find . -maxdepth 1 -type f -name "*.pdf" -print -quit); if [[ -n "$pdf" ]]; then sioyek "$pdf"; fi' C-m
 tmux select-window -t vim
