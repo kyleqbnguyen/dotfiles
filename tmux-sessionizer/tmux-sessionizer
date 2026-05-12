@@ -46,6 +46,24 @@ has_session() {
     tmux list-sessions | grep -q "^$1:"
 }
 
+find_session_by_path() {
+    tmux list-sessions -F '#{session_path}=#{session_name}' 2>/dev/null \
+        | awk -F= -v p="$1" '$1==p {print $2; exit}'
+}
+
+unique_session_name() {
+    local path="$1"
+    local name
+    name=$(basename "$path" | tr '.:/ ' '____')
+    local parent="$path"
+    while has_session "$name"; do
+        parent=$(dirname "$parent")
+        [[ "$parent" == "/" ]] && { name="${name}_$$"; break; }
+        name="$(basename "$parent" | tr '.:/ ' '____')_${name}"
+    done
+    printf '%s' "$name"
+}
+
 find_local_config() {
     dir="$1"
 
@@ -132,20 +150,26 @@ if [[ -z $selected ]]; then
 fi
 
 if [[ "$selected" =~ ^\[TMUX\]\ (.+)$ ]]; then
-    selected="${BASH_REMATCH[1]}"
+    switch_to "${BASH_REMATCH[1]}"
+    exit 0
 fi
 
-selected_name=$(basename "$selected" | tr . _)
+selected=$(realpath "$selected")
 tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    selected_name=$(unique_session_name "$selected")
     tmux new-session -ds "$selected_name" -c "$selected"
     hydrate "$selected_name" "$selected"
-fi
-
-if ! has_session "$selected_name"; then
-    tmux new-session -ds "$selected_name" -c "$selected"
-    hydrate "$selected_name" "$selected"
+else
+    existing=$(find_session_by_path "$selected")
+    if [[ -n "$existing" ]]; then
+        selected_name="$existing"
+    else
+        selected_name=$(unique_session_name "$selected")
+        tmux new-session -ds "$selected_name" -c "$selected"
+        hydrate "$selected_name" "$selected"
+    fi
 fi
 
 switch_to "$selected_name"
