@@ -1,3 +1,2 @@
-tmux send-keys "clear" C-m
-tmux new-window -n yazi
-tmux send-keys "yazi" C-m
+tmux new-window -t "$TS_SESSION:" -c "$TS_PATH" -n yazi 'yazi; exec $SHELL'
+tmux select-window -t "$TS_SESSION:yazi"

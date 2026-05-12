@@ -62,7 +62,7 @@ hydrate() {
     local_conf=$(find_local_config "$2")
 
     if [[ -n "$local_conf" ]]; then
-        tmux send-keys -t "$1" "source $local_conf" C-m
+        TS_SESSION="$1" TS_PATH="$2" bash "$local_conf"
     fi
 }
 

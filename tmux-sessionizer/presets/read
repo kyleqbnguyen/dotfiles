@@ -1,6 +1,4 @@
-tmux send-keys "cd ~/vault/ && clear" C-m
-tmux new-window -n vim 'cd ~/vault/concepts/; nvim; exec $SHELL'
-tmux new-window -n agent
-tmux new-window -n sioyek
-tmux send-keys -t sioyek 'pdf=$(find . -maxdepth 1 -type f -name "*.pdf" -print -quit); if [[ -n "$pdf" ]]; then sioyek "$pdf"; fi' C-m
-tmux select-window -t vim
+tmux new-window -t "$TS_SESSION:" -c "$TS_PATH" -n vim 'nvim; exec $SHELL'
+tmux new-window -t "$TS_SESSION:" -c "$TS_PATH" -n agent
+tmux new-window -t "$TS_SESSION:" -c "$TS_PATH" -n sioyek "pdf=\$(find . -maxdepth 1 -type f -name '*.pdf' -print -quit); if [[ -n \"\$pdf\" ]]; then sioyek \"\$pdf\"; fi; exec \$SHELL"
+tmux select-window -t "$TS_SESSION:vim"
