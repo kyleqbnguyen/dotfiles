@@ -1,0 +1,3 @@
+[submodule "pi/picosystem/cowork"]
+	path = pi/picosystem/cowork
+	url = https://github.com/kyleqbnguyen/cowork
