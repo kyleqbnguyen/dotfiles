@@ -1,0 +1,3 @@
+[submodule "pi/picosystem/split-editor"]
+	path = pi/picosystem/split-editor
+	url = https://github.com/kyleqbnguyen/split-editor
