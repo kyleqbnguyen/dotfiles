@@ -3,19 +3,8 @@ require("blink.cmp").setup({
 		preset = "luasnip",
 	},
 	sources = {
-		default = { "snippets", "lsp", "path", "buffer", "books", "obsidian" },
+		default = { "snippets", "lsp", "path", "buffer", "obsidian" },
 		providers = {
-			books = {
-				name = "Books",
-				module = "blink.books",
-				score_offset = 8,
-				opts = {
-					root = vim.fn.expand("~/vault/sources"),
-					exclude = {
-						plan = true,
-					},
-				},
-			},
 			obsidian = {
 				name = "Obsidian",
 				module = "blink_obsidian",
