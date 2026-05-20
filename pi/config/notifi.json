@@ -1,1 +1,7 @@
-../picosystem/notifi/examples/notifi.json
+{
+  "disabled": false,
+  "urgency": "normal",
+  "expireTime": 0,
+  "notifyOnError": true,
+  "notifyOnAbort": false
+}
