@@ -108,7 +108,7 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 alias vim="nvim"
-alias tree="tree -I 'build|target|.cargo|node_modules|dist|.git'"
+alias tree="tree -Ia 'build|target|.cargo|node_modules|dist|.git|.cache'"
 alias ls="ls -CA --color=auto"
 alias '?'='pi -p --provider openrouter --model "openai/gpt-oss-20b:free" --no-tools'
 alias '??'='pi -p -c --provider openrouter --model "openai/gpt-oss-20b:free" --no-tools'

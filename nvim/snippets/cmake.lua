@@ -54,7 +54,9 @@ local function bodyExecutable()
 			"target_include_directories(${PROJECT_NAME}",
 			"                           PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)",
 			"",
-			"target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)",
+			"target_compile_options(",
+			"  ${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic $<$<CONFIG:Release>:-O3",
+			"                          -march=native -DNDEBUG>)",
 		}),
 	})
 end
@@ -70,7 +72,9 @@ local function bodyTestedLibrary()
 			"  ${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>",
 			"                         $<INSTALL_INTERFACE:include>)",
 			"",
-			"target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)",
+			"target_compile_options(",
+			"  ${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic $<$<CONFIG:Release>:-O3",
+			"                          -march=native -DNDEBUG>)",
 		}),
 	})
 end
@@ -86,7 +90,9 @@ local function bodyLibPlusExe()
 			"  ${PROJECT_NAME}_lib",
 			"  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)",
 			"",
-			"target_compile_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic)",
+			"target_compile_options(",
+			"  ${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic $<$<CONFIG:Release>:-O3",
+			"                              -march=native -DNDEBUG>)",
 			"",
 			"add_executable(${PROJECT_NAME} app/main.cpp)",
 			"target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)",
