@@ -26,6 +26,10 @@ TS_SEARCH_PATHS=(~/)
 TS_EXTRA_SEARCH_PATHS=(~/ghq:3 ~/Git:3 ~/.config:2)   # :N = maxdepth override
 TS_IGNORE_PATHS=(~/Git/junk)
 TS_MAX_DEPTH=2
+TS_FZF_POPUP_WIDTH=80    # tmux popup columns
+TS_FZF_POPUP_HEIGHT=20   # tmux popup rows
+TS_FZF_POPUP_Y=0         # tmux popup top row; 0 = top, C = centered
+TS_FZF_BORDER=bold       # fzf border style; try bold, block, double, sharp
 ```
 
 ## Per-session hydration (presets)

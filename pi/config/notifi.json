@@ -2,6 +2,5 @@
   "disabled": false,
   "urgency": "normal",
   "expireTime": 0,
-  "notifyOnError": true,
-  "notifyOnAbort": true
+  "notifyOnError": true
 }

@@ -84,6 +84,28 @@ hydrate() {
     fi
 }
 
+fzf_select() {
+    if [[ -n "$TMUX" ]]; then
+        local input_file output_file fzf_cmd
+        input_file=$(mktemp)
+        output_file=$(mktemp)
+
+        find_dirs > "$input_file"
+        printf -v fzf_cmd 'fzf --height=100%% --border=%q < %q > %q' "${TS_FZF_BORDER:-bold}" "$input_file" "$output_file"
+
+        tmux display-popup -B -x C -y "${TS_FZF_POPUP_Y:-0}" \
+            -w "${TS_FZF_POPUP_WIDTH:-75}" \
+            -h "${TS_FZF_POPUP_HEIGHT:-16}" \
+            -E "$fzf_cmd"
+
+        selected=$(<"$output_file")
+        rm -f "$input_file" "$output_file"
+        printf '%s' "$selected"
+    else
+        find_dirs | fzf --height=100% --border="${TS_FZF_BORDER:-bold}"
+    fi
+}
+
 sanity_check
 
 # if TS_SEARCH_PATHS is not set use default
@@ -142,7 +164,7 @@ find_dirs() {
 if [[ $# -eq 1 ]]; then
     selected="$1"
 else
-    selected=$(find_dirs | fzf)
+    selected=$(fzf_select)
 fi
 
 if [[ -z $selected ]]; then
