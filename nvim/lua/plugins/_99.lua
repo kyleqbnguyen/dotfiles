@@ -1,7 +1,7 @@
 local _99 = require("99")
 
 _99.setup({
-	model = "openai/gpt-5.4-fast",
+	model = "openai/gpt-5.4-mini",
 	tmp_dir = "./.tmp",
 })
 

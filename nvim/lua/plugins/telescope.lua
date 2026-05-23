@@ -22,6 +22,9 @@ require("telescope").setup({
       ".venv/",
       "__pycache__/",
       ".egg.info/",
+      "%.png$",
+      "%.jpg$",
+      "%.gif$",
 		},
 	},
 	pickers = {
