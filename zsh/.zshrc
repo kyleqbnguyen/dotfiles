@@ -110,7 +110,6 @@ source $ZSH/oh-my-zsh.sh
 alias vim="nvim"
 alias tree="tree -Ia 'build|target|.cargo|node_modules|dist|.git|.cache'"
 alias ls="ls -CA --color=auto"
-alias '?'='pi -p --provider openrouter --model "openai/gpt-oss-20b:free" --no-tools'
-alias '??'='pi -p -c --provider openrouter --model "openai/gpt-oss-20b:free" --no-tools'
+alias qpi="pi --no-session --provider openai-codex --model gpt-5.4-mini --thinking low"
 
 bindkey -s ^f "tmux-sessionizer\n"

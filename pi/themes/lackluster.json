@@ -58,7 +58,7 @@
     "mdHr": "gray4",
     "mdListBullet": "gray8",
 
-    "toolDiffAdded": "gray7",
+    "toolDiffAdded": "#789978",
     "toolDiffRemoved": "red",
     "toolDiffContext": "gray6",
 
