@@ -17,6 +17,8 @@ require("plugins.luasnip")
 require("plugins.blink")
 require("plugins.oil")
 require("plugins.conform")
+require("plugins.pi")
+require("config.pi")
 require("plugins._99")
 
 require("config.map")

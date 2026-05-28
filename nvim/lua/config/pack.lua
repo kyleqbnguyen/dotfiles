@@ -1,3 +1,8 @@
+local pi = vim.fn.expand("~/personal/wingman")
+if vim.uv.fs_stat(pi) then
+	vim.opt.runtimepath:prepend(pi)
+end
+
 vim.pack.add({
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },

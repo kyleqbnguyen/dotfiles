@@ -44,10 +44,41 @@ local function bodySubExe()
 	})
 end
 
-local function bodyExecutable()
+local function sourceExt(lang)
+	return lang == "C" and "c" or "cpp"
+end
+
+local function bodyStandard(lang)
+	if lang == "C" then
+		return sn(nil, {
+			t("set(CMAKE_C_STANDARD "),
+			c(1, { t("17"), t("23"), t("11"), t("99") }),
+			t({
+				")",
+				"set(CMAKE_C_STANDARD_REQUIRED ON)",
+				"set(CMAKE_C_EXTENSIONS OFF)",
+				"set(CMAKE_EXPORT_COMPILE_COMMANDS ON)",
+			}),
+		})
+	end
+
+	return sn(nil, {
+		t("set(CMAKE_CXX_STANDARD "),
+		c(1, { t("20"), t("23"), t("17") }),
+		t({
+			")",
+			"set(CMAKE_CXX_STANDARD_REQUIRED ON)",
+			"set(CMAKE_CXX_EXTENSIONS OFF)",
+			"set(CMAKE_EXPORT_COMPILE_COMMANDS ON)",
+		}),
+	})
+end
+
+local function bodyExecutable(lang)
+	local ext = sourceExt(lang)
 	return sn(nil, {
 		t({
-			'file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")',
+			'file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.' .. ext .. '")',
 			"",
 			"add_executable(${PROJECT_NAME} ${SOURCES})",
 			"",
@@ -61,10 +92,11 @@ local function bodyExecutable()
 	})
 end
 
-local function bodyTestedLibrary()
+local function bodyTestedLibrary(lang)
+	local ext = sourceExt(lang)
 	return sn(nil, {
 		t({
-			'file(GLOB_RECURSE LIB_SOURCES CONFIGURE_DEPENDS "src/*.cpp")',
+			'file(GLOB_RECURSE LIB_SOURCES CONFIGURE_DEPENDS "src/*.' .. ext .. '")',
 			"",
 			"add_library(${PROJECT_NAME} ${LIB_SOURCES})",
 			"",
@@ -79,10 +111,11 @@ local function bodyTestedLibrary()
 	})
 end
 
-local function bodyLibPlusExe()
+local function bodyLibPlusExe(lang)
+	local ext = sourceExt(lang)
 	return sn(nil, {
 		t({
-			'file(GLOB_RECURSE LIB_SOURCES CONFIGURE_DEPENDS "src/*.cpp")',
+			'file(GLOB_RECURSE LIB_SOURCES CONFIGURE_DEPENDS "src/*.' .. ext .. '")',
 			"",
 			"add_library(${PROJECT_NAME}_lib ${LIB_SOURCES})",
 			"",
@@ -94,7 +127,7 @@ local function bodyLibPlusExe()
 			"  ${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic $<$<CONFIG:Release>:-O3",
 			"                              -march=native -DNDEBUG>)",
 			"",
-			"add_executable(${PROJECT_NAME} app/main.cpp)",
+			"add_executable(${PROJECT_NAME} app/main." .. ext .. ")",
 			"target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)",
 		}),
 	})
@@ -142,14 +175,14 @@ return {
 		i(3, "0.0.0"),
 		t({ "", '  DESCRIPTION "' }),
 		i(4, "desc"),
-		t({ '"', "  LANGUAGES CXX)", "", "" }),
-		t("set(CMAKE_CXX_STANDARD "),
-		c(5, { t("20"), t("23"), t("17") }),
+		t({ '"', "  LANGUAGES " }),
+		c(5, { t("CXX"), t("C") }),
+		t({ ")", "", "" }),
+		d(6, function(args)
+			return bodyStandard(args[1][1])
+		end, { 5 }),
 		t({
-			")",
-			"set(CMAKE_CXX_STANDARD_REQUIRED ON)",
-			"set(CMAKE_CXX_EXTENSIONS OFF)",
-			"set(CMAKE_EXPORT_COMPILE_COMMANDS ON)",
+			"",
 			"",
 			"",
 		}),
@@ -157,25 +190,26 @@ return {
 		t({ "", "endif()", "", "" }),
 		t({ 'option(BUILD_TESTS "Build tests" OFF)', "" }),
 		t({ 'option(BUILD_BENCH "Build benchmarks" OFF)', "", "# " }),
-		c(6, {
+		c(7, {
 			t("exe"),
 			t("lib"),
 			t("lib+exe"),
 			t("submodules"),
 		}),
 		t({ "", "" }),
-		d(7, function(args)
-			local mode = args[1][1]
+		d(8, function(args)
+			local lang = args[1][1]
+			local mode = args[2][1]
 			if mode == "lib" then
-				return bodyTestedLibrary()
+				return bodyTestedLibrary(lang)
 			elseif mode == "lib+exe" then
-				return bodyLibPlusExe()
+				return bodyLibPlusExe(lang)
 			elseif mode == "exe" then
-				return bodyExecutable()
+				return bodyExecutable(lang)
 			else
 				return bodySubModules()
 			end
-		end, { 6 }),
+		end, { 5, 7 }),
 		t({
 			"",
 			"",
