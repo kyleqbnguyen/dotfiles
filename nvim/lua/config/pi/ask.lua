@@ -154,6 +154,10 @@ local function append_separator()
 	end)
 end
 
+local function window_count()
+	return #vim.api.nvim_tabpage_list_wins(0)
+end
+
 local function ensure_response_window()
 	local buf = ensure_response_buffer()
 
@@ -170,6 +174,21 @@ local function ensure_response_window()
 	vim.api.nvim_set_current_win(current)
 
 	return response_win
+end
+
+local function response_window_open()
+	return valid_win(response_win) and vim.api.nvim_win_get_buf(response_win) == response_buf
+end
+
+local function close_response_window()
+	if response_window_open() then
+		if window_count() == 1 then
+			return false
+		end
+		vim.api.nvim_win_close(response_win, false)
+	end
+	response_win = nil
+	return true
 end
 
 local function format_diagnostic(diagnostic)
@@ -587,6 +606,16 @@ function M.open_response()
 	ensure_response_window()
 end
 
+function M.toggle_response()
+	if response_window_open() then
+		close_response_window()
+		return
+	end
+
+	response_win = nil
+	ensure_response_window()
+end
+
 function M.toggle_prompt()
 	if valid_win(prompt_win) then
 		vim.api.nvim_win_close(prompt_win, false)
@@ -614,7 +643,7 @@ function M.setup()
 		M.clear_context()
 	end, {})
 	vim.api.nvim_create_user_command("PiAskResponse", function()
-		M.open_response()
+		M.toggle_response()
 	end, {})
 
 	vim.keymap.set("n", "<leader>pa", M.toggle_prompt, { silent = true, desc = "PiAsk" })
@@ -623,7 +652,7 @@ function M.setup()
 	vim.keymap.set("n", "<leader>pd", M.ask_diagnostic, { silent = true, desc = "PiAsk diagnostic" })
 	vim.keymap.set("x", "<leader>pd", M.ask_selection_diagnostics, { silent = true, desc = "PiAsk selection diagnostics" })
 	vim.keymap.set("n", "<leader>pD", M.ask_buffer_diagnostics, { silent = true, desc = "PiAsk buffer diagnostics" })
-	vim.keymap.set("n", "<leader>pr", M.open_response, { silent = true, desc = "PiAsk response" })
+	vim.keymap.set("n", "<leader>pr", M.toggle_response, { silent = true, desc = "PiAsk response" })
 	vim.keymap.set("n", "<leader>cc", M.clear_context, { silent = true, desc = "PiAsk clear context" })
 end
 
