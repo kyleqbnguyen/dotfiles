@@ -1,4 +1,4 @@
-local pi = vim.fn.expand("~/personal/wingman")
+local pi = vim.fn.expand("~/personal/pi-nvim")
 if vim.uv.fs_stat(pi) then
 	vim.opt.runtimepath:prepend(pi)
 end
