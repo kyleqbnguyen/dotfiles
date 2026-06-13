@@ -65,7 +65,7 @@ local function open_prompt(context)
 	if valid_win(prompt_win) then
 		vim.api.nvim_set_current_win(prompt_win)
 	else
-		local width = 80
+		local width = 84
 		local height = math.floor(vim.o.lines * 0.35)
 		local row = math.floor((vim.o.lines - height) / 2)
 		local col = math.floor((vim.o.columns - width) / 2)
